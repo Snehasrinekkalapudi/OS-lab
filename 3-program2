@@ -8,3 +8,4 @@ printf("\n conents of the directory %s are \n",argv[1]);
 while((link=readdir(dp))!=0)
   printf("%s",link->d_name);
   closedir(dp);
+}
