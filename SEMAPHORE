@@ -9,7 +9,6 @@ void* open_port(void* port) {
     printf("Attempting to open port %d\n", port_number);
     sem_wait(&port_semaphore);
     printf("Port %d is opened\n", port_number);
-    sleep(2);
     sem_post(&port_semaphore);
     printf("Port %d is closed\n", port_number);
     pthread_exit(NULL);
