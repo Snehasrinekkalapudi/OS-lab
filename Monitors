@@ -16,6 +16,7 @@ void* requestPort(void* thread_id) {
     openPorts++;
     printf("Thread %d: Opened a port. Total open ports: %d\n", id, openPorts);
     pthread_mutex_unlock(&mutex);
+    sleep(2);
     pthread_mutex_lock(&mutex);
     openPorts--;
     printf("Thread %d: Released a port. Total open ports: %d\n", id, openPorts);
