@@ -1,7 +1,6 @@
-#include<conio.h> 
-#include<stdio.h> 
-#include<stdlib.h> 
-#include<time.h> 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 struct allocate {
     int pid;
@@ -26,19 +25,19 @@ struct free_list *flist = NULL;
 struct allocate *alot = NULL;
 
 void display_alot(struct allocate *temp_a) {
-    printf("\n\n allocated list:");
+    printf("\n\nAllocated list:");
     printf("\n================");
     while (temp_a != NULL) {
-        printf("\n process:%d st_add:%d end_add:%d ", temp_a->pid, temp_a->st_add, temp_a->end_add);
+        printf("\nProcess: %d Start Address: %d End Address: %d", temp_a->pid, temp_a->st_add, temp_a->end_add);
         temp_a = temp_a->next;
     }
 }
 
 void display_free(struct free_list *temp_f) {
-    printf("\n\n free list:");
+    printf("\n\nFree list:");
     printf("\n=================");
     while (temp_f != NULL) {
-        printf("\n st_add:%d end_add:%d", temp_f->st_add, temp_f->end_add);
+        printf("\nStart Address: %d End Address: %d", temp_f->st_add, temp_f->end_add);
         temp_f = temp_f->next;
     }
 }
@@ -49,11 +48,11 @@ void insert(int p) {
     int i, n;
 
     do {
-        srand((unsigned int)time((time_t*)NULL));
+        srand((unsigned int)time(NULL));
         n = rand() % 5;
     } while (n == 0);
 
-    printf("\n\n no. of process:%d", n); 
+    printf("\n\nNumber of processes: %d", n); 
     for (i = 0; i < n; i++) {
         pro[i].pid = i + p; 
         do {
@@ -62,7 +61,7 @@ void insert(int p) {
     }
 
     for (i = 0; i < n; i++) {
-        printf("\n\n process to be inserted:%d size:%d", pro[i].pid, pro[i].size);
+        printf("\n\nProcess to be inserted: %d Size: %d", pro[i].pid, pro[i].size);
         temp_f = flist; 
         temp_a = alot;
         while (temp_f != NULL && temp_f->end_add - temp_f->st_add < pro[i].size) {
@@ -84,21 +83,19 @@ void insert(int p) {
                 pre_a->next = NULL;
             }
         } else {
-            printf("\n there is not enough space");
+            printf("\nThere is not enough space.");
         }
         display_alot(alot);
         display_free(flist);
-        getch();
+        getchar();  // Wait for key press
     }
 }
 
-void main() {
-    int no, n, i, nod, ndpid;
-    struct process pro[10];
+int main() {
+    int i, nod, ndpid;
     struct free_list *temp_f, *free_alot, *pre_f; 
     struct allocate *temp_a, *pre_a;
 
-    clrscr(); 
     alot = NULL;
     flist = (struct free_list*)malloc(sizeof(struct free_list));
     flist->st_add = 0;
@@ -107,13 +104,13 @@ void main() {
     insert(0);
 
     do {
-        srand((unsigned int)time((time_t*)NULL));
+        srand((unsigned int)time(NULL));
         nod = rand() % 2;
     } while (nod == 0);
 
-    printf("\n\n no.of process deletion:%d", nod); 
+    printf("\n\nNumber of processes to delete: %d", nod); 
     for (i = 0; i < nod; i++) {
-        printf("\n\n\n process to be deleted:");
+        printf("\n\nProcess to be deleted:");
         scanf("%d", &ndpid); 
         temp_a = alot; 
         temp_f = flist;
@@ -148,10 +145,10 @@ void main() {
             }
             free(temp_a);
         } else {
-            printf("\n process not in memory");
+            printf("\nProcess not in memory.");
         }
         temp_f = flist; 
-        while (temp_f != NULL) {
+        while (temp_f != NULL && temp_f->next != NULL) {
             if (temp_f->end_add == temp_f->next->st_add) {
                 temp_f->end_add = temp_f->next->end_add;
                 temp_f->next = temp_f->next->next;
@@ -160,7 +157,8 @@ void main() {
         }
         display_alot(alot); 
         display_free(flist);
-        getch();
+        getchar();  // Wait for key press
     }
     insert(10);
+    return 0;
 }
